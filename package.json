@@ -4,8 +4,11 @@
   "description": "A command-line application to manage employee databases.",
   "main": "index.js",
   "dependencies": {
+    "asciiart-logo": "^0.2.6",
     "express": "^4.17.1",
-    "mysql": "2.18.1"
+    "inquirer": "^8.0.0",
+    "mysql": "2.18.1",
+    "mysql2": "^2.2.5"
   },
   "devDependencies": {
     "jest": "^26.6.3"

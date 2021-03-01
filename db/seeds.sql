@@ -1,33 +1,33 @@
-INSERT INTO roles (title, department, salary, manager)
+
+-- department 
+INSERT INTO department (dept_name)
 VALUES
-  ('Sales Lead', 'Sales', '100000', 'Ashley Rodriguez'), 
-  ('Salesperson', 'Sales', '80000', 'John Doe'), 
-  ('Lead Engineer', 'Engineering', '150000', ''),
-  ('Software Engineer', 'Engineering', '120000', 'Ashley Rodriguez'),
-  ('Accountant', 'Finance', '125000', ''),
-  ('Legal Counsel', 'Legal', '190000', 'Sarah Lourd'),
-  ('General Counsel', 'Legal', '300000', '');
+  ('Sales'),
+  ('Engineering'),
+  ('Finance'),
+  ('Legal');
 
+-- Quickrefs for depts - Sales: 1; Engineering: 2; Finance: 3; Legal: 4;
 
-
-INSERT INTO employees (first_name, last_name)
+-- role 
+INSERT INTO role (job_title, salary, department_id)
 VALUES
-('James', 'Fraser'),
-  ('Jack', 'London'),
-  ('Robert', 'Bruce'),
-  ('Peter', 'Greenaway'),
-  ('Derek', 'Jarman'),
-  ('Paolo', 'Pasolini'),
-  ('Heathcote', 'Williams'),
-  ('Sandy', 'Powell'),
-  ('Emil', 'Zola'),
-  ('Sissy', 'Coalpits'),
-  ('Antoinette', 'Capet'),
-  ('Samuel', 'Delany'),
-  ('Tony', 'Duvert'),
-  ('Dennis', 'Cooper'),
-  ('Monica', 'Bellucci'),
-  ('Samuel', 'Johnson'),
-  ('John', 'Dryden'),
-  ('Alexander', 'Pope'),
-  ('Gerald', 'Griffin');
+  ('Sales Lead', '100000', 1), 
+  ('Salesperson', '80000', 1), 
+  ('Lead Engineer', '150000', 2),
+  ('Software Engineer', '120000', 2),
+  ('Accountant', '125000', 3),
+  ('Legal Counsel', '190000', 4),
+  ('General Counsel', '300000', 4);
+
+-- Quickrefs for roles - Sales Lead: 1; Sales Person: 2; : 3; Legal: 4;
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES
+  ('James', 'Fraser', 1, NULL),
+  ('Jack', 'London', 2, 1),
+  ('Robert', 'Bruce', 7, NULL),
+  ('Peter', 'Greenaway', 6, 7),
+  ('Derek', 'Jarman', 4, 2,
+  ('Paolo', 'Pasolini', 3, NULL),
+  ('Heathcote', 'Williams', 3, NULL);
