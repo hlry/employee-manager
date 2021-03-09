@@ -1,9 +1,10 @@
 
 const inquirer = require('inquirer');
-const db = require('db');
-const sql = require('mysql2');
-const config = require('package.json');
-// const dotenv = require('dotenv');
+const db = require('./db');
+const mysql = require('mysql2');
+const logo = require('asciiart-logo');
+const config = require('./package.json');
+require('dotenv').config();
 
 console.log(logo(config).render());
 
@@ -12,9 +13,9 @@ const PORT = process.env.PORT || 3001;
 // create the connection to database
 const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'employees_db'
+    user: process.env.DB_USER,
+    password: process.env.DB_PW,
+    database: process.env.DB_NAME,
 });
 
 // call the connect method on the connection object to connect to MySQL database server
@@ -71,11 +72,11 @@ function questions() {
 // View All Employees
 getEmployeeNames = () => {
     let query = `
-        SELECT e.id, e.first_name AS "First Name", e.last_name AS "Last Name", roles.title AS "Job Title", departments.name AS "Department", FORMAT(roles.salary, 'C') Salary, CONCAT(m.first_name, ' ', m.last_name) AS Manager
-        FROM employees e
-        LEFT JOIN roles ON e.roles_id = roles.id 
+        SELECT employee.id, employee.first_name AS "First Name", employee.last_name AS "Last Name", roles.title AS "Job Title", departments.name AS "Department", FORMAT(roles.salary, 'C') Salary, CONCAT(manager.first_name, ' ', manager.last_name) AS Manager
+        FROM employees employee
+        LEFT JOIN roles ON employee.roles_id = roles.id 
         LEFT JOIN departments ON roles.department_id = departments.id
-        LEFT JOIN employees m ON e.manager_id = m.id;`
+        LEFT JOIN employees manager ON employee.manager_id = manager.id;`
     connection.query(query, function (err, results) {
         if (err) throw err
         console.log('All Employees \n')
@@ -83,6 +84,21 @@ getEmployeeNames = () => {
         promptUserAction()
     })
 };
+
+// getEmployeeNames = () => {
+//     let query = `
+//         SELECT e.id, e.first_name AS "First Name", e.last_name AS "Last Name", roles.title AS "Job Title", departments.name AS "Department", FORMAT(roles.salary, 'C') Salary, CONCAT(m.first_name, ' ', m.last_name) AS Manager
+//         FROM employees e
+//         LEFT JOIN roles ON e.roles_id = roles.id 
+//         LEFT JOIN departments ON roles.department_id = departments.id
+//         LEFT JOIN employees m ON e.manager_id = m.id;`
+//     connection.query(query, function (err, results) {
+//         if (err) throw err
+//         console.log('All Employees \n')
+//         console.table(results)
+//         promptUserAction()
+//     })
+// };
 
 // View All Departments
 getDepartmentsNames = () => {
@@ -136,9 +152,9 @@ updateRole = () => {
 
 
 // Default response for any other request(Not Found) Catch all other
-app.use((req, res) => {
-    res.status(404).end();
-});
+// app.use((req, res) => {
+//     res.status(404).end();
+// });
 
 // run questions function
 questions();
